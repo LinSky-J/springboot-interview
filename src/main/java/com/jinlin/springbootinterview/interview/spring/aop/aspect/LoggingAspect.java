@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
  *    - @AfterThrowing: 异常通知，在方法抛出异常后执行。
  *    - @After: 最终后置通知，在 finally 代码块中执行。
  */
+
+//声明这个类为切面类
 @Aspect
 @Component
 public class LoggingAspect {
