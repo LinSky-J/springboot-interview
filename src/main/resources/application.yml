@@ -1,0 +1,10 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8080
+
+# MyBatis 相关配置
+mybatis:
+  # 指定 MyBatis 的 Mapper 映射文件路径
+  mapper-locations: classpath:mappers/*xml
+  # 指定 MyBatis 的实体目录（起别名）
+  type-aliases-package: com.jinlin.springbootinterview.mybatis.entity
