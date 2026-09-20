@@ -1,8 +1,5 @@
 package com.jinlin.springbootinterview.interview.springcloud.circuitbreaker;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
-
 /**
  * ============================================================================
  * 三、服务熔断 (Circuit Breaker) 与 服务降级 (Fallback) 深度剖析与状态机实战
@@ -59,7 +56,7 @@ public class CircuitBreakerAndFallbackDemo {
         // 阈值：连续失败 3 次拉闸熔断，熔断后冷却 1500 毫秒（1.5秒）进入半开探测
         MiniCircuitBreaker circuitBreaker = new MiniCircuitBreaker(3, 1500);
 
-        // 模拟不可稳定的远程微服务（前 4 次调用必崩，第 5 次及以后恢复健康）
+        // 模拟不可稳定的远程微服务（前 3 次调用必崩，第 4 次及以后恢复健康）
         RemoteOrderService mockRemoteService = new RemoteOrderService();
 
         System.out.println("\n--- 阶段一：初始正常状态 (CLOSED)，开始连续发起调用 ---");
@@ -102,105 +99,5 @@ public class CircuitBreakerAndFallbackDemo {
         );
         System.out.println("后续常规请求响应: " + finalResult);
         System.out.println("\n[全链路验证通过] 熔断器完成 CLOSED -> OPEN -> HALF_OPEN -> CLOSED 完整闭环！");
-    }
-}
-
-/**
- * 熔断器状态机枚举
- */
-enum CircuitState {
-    CLOSED,     // 闭合（正常状态）
-    OPEN,       // 开启（熔断状态，快速失败）
-    HALF_OPEN   // 半开（探针探测状态）
-}
-
-/**
- * 生产级概念轻量级熔断器实现 (MiniCircuitBreaker)
- */
-class MiniCircuitBreaker {
-
-    private CircuitState state = CircuitState.CLOSED;
-    private final int failureThreshold; // 连续失败阈值
-    private final long sleepWindowMs;   // 熔断后冷却窗口时长（毫秒）
-
-    private final AtomicInteger continuousFailureCount = new AtomicInteger(0);
-    private long lastOpenTimestamp = 0;
-
-    public MiniCircuitBreaker(int failureThreshold, long sleepWindowMs) {
-        this.failureThreshold = failureThreshold;
-        this.sleepWindowMs = sleepWindowMs;
-    }
-
-    /**
-     * 核心熔断执行包装方法（结合函数式接口与降级 Fallback）
-     */
-    public synchronized String execute(Supplier<String> normalAction, java.util.function.Function<Throwable, String> fallback) {
-        long now = System.currentTimeMillis();
-
-        // 1. 检查是否达到冷却时间，从而从 OPEN 跃迁为 HALF_OPEN
-        if (state == CircuitState.OPEN) {
-            if (now - lastOpenTimestamp >= sleepWindowMs) {
-                state = CircuitState.HALF_OPEN;
-                System.out.println("[熔断状态机变迁] 冷却时间已到，状态由 OPEN 跃迁为 -> HALF_OPEN (半开探测态)！");
-            } else {
-                // 仍在冷却窗口期内，直接拦截不发网络请求，走降级
-                return fallback.apply(new RuntimeException("熔断器打开 (OPEN)，系统正在紧急冷却隔离保护中"));
-            }
-        }
-
-        // 2. 执行真正的远程调用
-        try {
-            String result = normalAction.get();
-            // 调用成功：处理成功后状态转移
-            onSuccess();
-            return result;
-        } catch (Throwable ex) {
-            // 调用失败：处理失败并可能触发拉闸
-            onFailure(ex);
-            // 触发降级保底
-            return fallback.apply(ex);
-        }
-    }
-
-    private void onSuccess() {
-        if (state == CircuitState.HALF_OPEN) {
-            System.out.println("[熔断状态机变迁] 半开探针请求成功！下游已自愈，状态由 HALF_OPEN 恢复为 -> CLOSED (闭合正常)！");
-            state = CircuitState.CLOSED;
-            continuousFailureCount.set(0);
-        } else if (state == CircuitState.CLOSED) {
-            continuousFailureCount.set(0);
-        }
-    }
-
-    private void onFailure(Throwable ex) {
-        int failures = continuousFailureCount.incrementAndGet();
-        System.out.println("[异常上报] 远程服务调用失败: " + ex.getMessage() + " (连续失败次数: " + failures + ")");
-
-        if (state == CircuitState.HALF_OPEN) {
-            // 半开态只要探测失败，立即重新打回 OPEN 状态
-            state = CircuitState.OPEN;
-            lastOpenTimestamp = System.currentTimeMillis();
-            System.out.println("[熔断状态机变迁] 半开探针请求再次失败，下游尚未恢复，状态重新打回 -> OPEN (熔断开启)！");
-        } else if (state == CircuitState.CLOSED && failures >= failureThreshold) {
-            // 闭合态达到连续失败阈值，立即跳闸拉闸
-            state = CircuitState.OPEN;
-            lastOpenTimestamp = System.currentTimeMillis();
-            System.out.println("[熔断状态机变迁] 连续失败达到阈值 " + failureThreshold + " 次！紧急拉闸，状态跃迁为 -> OPEN (熔断开启)！");
-        }
-    }
-}
-
-/**
- * 模拟远程订单微服务（前 4 次调用模拟故障抛异常，之后自愈）
- */
-class RemoteOrderService {
-    private int callCount = 0;
-
-    public String queryOrder(String orderId) {
-        callCount++;
-        if (callCount <= 3) {
-            throw new RuntimeException("503 Service Unavailable: 数据库连接超时");
-        }
-        return "[200 OK 真实远程数据] 订单【" + orderId + "】查询成功，支付状态已完成。";
     }
 }

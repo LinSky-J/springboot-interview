@@ -1,8 +1,7 @@
 package com.jinlin.springbootinterview.interview.springcloud.loadbalancer;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ============================================================================
@@ -52,21 +51,21 @@ public class LoadBalancerAlgorithmsDemo {
 
         // 1. 测试基础轮询算法 (Round Robin)
         System.out.println("\n--- 1. 基础轮询算法 (Round Robin) 测试 (6 次连续请求) ---");
-        RoundRobinLoadBalancer roundRobin = new RoundRobinLoadBalancer(instances);
+        LoadBalancer roundRobin = new RoundRobinLoadBalancer(instances);
         for (int i = 1; i <= 6; i++) {
             System.out.println("第 " + i + " 次请求路由到: " + roundRobin.select().getHostAndPort());
         }
 
         // 2. 测试随机算法 (Random)
         System.out.println("\n--- 2. 随机算法 (Random) 测试 (3 次请求) ---");
-        RandomLoadBalancer randomLb = new RandomLoadBalancer(instances);
+        LoadBalancer randomLb = new RandomLoadBalancer(instances);
         for (int i = 1; i <= 3; i++) {
             System.out.println("随机分发: " + randomLb.select().getHostAndPort());
         }
 
         // 3. 测试加权轮询算法 (Weighted Round Robin)
         System.out.println("\n--- 3. 加权轮询算法 (权重 1:2:3，总计分发 6 次) ---");
-        WeightedRoundRobinLoadBalancer weightedLb = new WeightedRoundRobinLoadBalancer(instances);
+        LoadBalancer weightedLb = new WeightedRoundRobinLoadBalancer(instances);
         for (int i = 1; i <= 6; i++) {
             System.out.println("加权路由: " + weightedLb.select().getHostAndPort());
         }
@@ -101,157 +100,5 @@ public class LoadBalancerAlgorithmsDemo {
         }
 
         System.out.println("\n[验证结论] 无论请求多少次，Alice、Bob、Charlie 各自请求均牢牢绑定在专属的目标实例上！");
-    }
-}
-
-/**
- * 微服务集群节点定义
- */
-class ServiceInstance {
-    private final String ip;
-    private final int port;
-    private final int weight; // 权重
-
-    public ServiceInstance(String ip, int port, int weight) {
-        this.ip = ip;
-        this.port = port;
-        this.weight = weight;
-    }
-
-    public String getHostAndPort() {
-        return ip + ":" + port + " (权重=" + weight + ")";
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public String getIdentifier() {
-        return ip + ":" + port;
-    }
-}
-
-/**
- * 1. 经典轮询负载均衡器 (Round Robin)
- */
-class RoundRobinLoadBalancer {
-    private final List<ServiceInstance> instances;
-    private final AtomicInteger position = new AtomicInteger(0);
-
-    public RoundRobinLoadBalancer(List<ServiceInstance> instances) {
-        this.instances = instances;
-    }
-
-    public ServiceInstance select() {
-        if (instances.isEmpty()) {
-            return null;
-        }
-        // 原子自增，防溢出位运算处理后对实例数求模
-        int current = position.getAndIncrement();
-        int index = (current & Integer.MAX_VALUE) % instances.size();
-        return instances.get(index);
-    }
-}
-
-/**
- * 2. 经典随机负载均衡器 (Random)
- */
-class RandomLoadBalancer {
-    private final List<ServiceInstance> instances;
-
-    public RandomLoadBalancer(List<ServiceInstance> instances) {
-        this.instances = instances;
-    }
-
-    public ServiceInstance select() {
-        if (instances.isEmpty()) {
-            return null;
-        }
-        int index = ThreadLocalRandom.current().nextInt(instances.size());
-        return instances.get(index);
-    }
-}
-
-/**
- * 3. 经典加权轮询负载均衡器 (Weighted Round Robin)
- */
-class WeightedRoundRobinLoadBalancer {
-    private final List<ServiceInstance> weightedPool = new ArrayList<>();
-    private final AtomicInteger position = new AtomicInteger(0);
-
-    public WeightedRoundRobinLoadBalancer(List<ServiceInstance> instances) {
-        // 根据权重将实例按比例多次放入列表
-        for (ServiceInstance instance : instances) {
-            for (int i = 0; i < instance.getWeight(); i++) {
-                weightedPool.add(instance);
-            }
-        }
-    }
-
-    public ServiceInstance select() {
-        if (weightedPool.isEmpty()) {
-            return null;
-        }
-        int current = position.getAndIncrement();
-        int index = (current & Integer.MAX_VALUE) % weightedPool.size();
-        return weightedPool.get(index);
-    }
-}
-
-/**
- * 4. 基于用户 ID 的一致性哈希粘性负载均衡器 (Consistent Hash Sticky Load Balancer)
- * 解决“如何实现一直均衡给同一个用户”的核心利器！
- */
-class ConsistentHashUserStickyLoadBalancer {
-
-    // 虚拟节点环（红黑树有序映射：Hash值 -> 实际物理节点）
-    private final SortedMap<Integer, ServiceInstance> hashRing = new TreeMap<>();
-    private final int numberOfVirtualNodes;
-
-    public ConsistentHashUserStickyLoadBalancer(List<ServiceInstance> instances, int numberOfVirtualNodes) {
-        this.numberOfVirtualNodes = numberOfVirtualNodes;
-        for (ServiceInstance instance : instances) {
-            addServerNode(instance);
-        }
-    }
-
-    // 将物理服务节点扩展为若干虚拟节点，均匀散列到 2^32 环形空间中，避免数据倾斜
-    private void addServerNode(ServiceInstance instance) {
-        for (int i = 0; i < numberOfVirtualNodes; i++) {
-            String virtualNodeKey = instance.getIdentifier() + "&&VN_" + i;
-            int hash = hash(virtualNodeKey);
-            hashRing.put(hash, instance);
-        }
-    }
-
-    /**
-     * 核心算法：根据用户的唯一身份键（如 userId、IP、token）在环上顺时针寻径
-     */
-    public ServiceInstance selectByUser(String userId) {
-        if (hashRing.isEmpty() || userId == null) {
-            return null;
-        }
-        int userHash = hash(userId);
-        // 如果没有直接命中，取顺时针方向的第一个虚拟节点
-        SortedMap<Integer, ServiceInstance> tailMap = hashRing.tailMap(userHash);
-        int targetHash = tailMap.isEmpty() ? hashRing.firstKey() : tailMap.firstKey();
-        return hashRing.get(targetHash);
-    }
-
-    /**
-     * FNV1_32_HASH 经典 32 位哈希算法（分布均匀，碰撞率极低）
-     */
-    private int hash(String key) {
-        final int p = 16777619;
-        int hash = (int) 2166136261L;
-        for (int i = 0; i < key.length(); i++) {
-            hash = (hash ^ key.charAt(i)) * p;
-        }
-        hash += hash << 13;
-        hash ^= hash >> 7;
-        hash += hash << 3;
-        hash ^= hash >> 17;
-        hash += hash << 5;
-        return Math.abs(hash);
     }
 }

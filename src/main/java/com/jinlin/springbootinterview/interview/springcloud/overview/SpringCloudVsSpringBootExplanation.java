@@ -63,39 +63,25 @@ public class SpringCloudVsSpringBootExplanation {
 
         // 2. 展示主流三代组件对照矩阵
         System.out.println("\n[微服务核心五大治理能力与技术选型对照表]");
-        List<ComponentRow> matrix = buildComponentMatrix();
+        List<MicroserviceComponentMetadata> matrix = buildComponentMatrix();
         System.out.printf("%-14s | %-20s | %-24s | %-24s%n", 
                 "治理维度", "第一代(Netflix)", "第二代(Alibaba 主流)", "第三代(Spring 官方推荐)");
         System.out.println("---------------------------------------------------------------------------------------------");
-        for (ComponentRow row : matrix) {
+        for (MicroserviceComponentMetadata row : matrix) {
             System.out.printf("%-14s | %-20s | %-24s | %-24s%n",
-                    row.dimension, row.netflix, row.alibaba, row.springOfficial);
+                    row.getDimension(), row.getNetflix(), row.getAlibaba(), row.getSpringOfficial());
         }
     }
 
-    private static List<ComponentRow> buildComponentMatrix() {
-        List<ComponentRow> list = new ArrayList<>();
-        list.add(new ComponentRow("服务注册与发现", "Eureka (停更)", "Nacos (强推, 注册+配置)", "Consul / K8s DNS"));
-        list.add(new ComponentRow("服务配置中心", "Spring Cloud Config", "Nacos (动态热刷新秒级生效)", "Consul KV / K8s ConfigMap"));
-        list.add(new ComponentRow("客户端负载均衡", "Ribbon (停更)", "Spring Cloud LoadBalancer", "Spring Cloud LoadBalancer"));
-        list.add(new ComponentRow("声明式服务调用", "Feign (停更)", "OpenFeign / Dubbo", "OpenFeign / HTTP Interface"));
-        list.add(new ComponentRow("服务熔断与限流", "Hystrix (停更)", "Sentinel (阿里流量防卫兵)", "Resilience4j"));
-        list.add(new ComponentRow("微服务网关", "Zuul 1.x (阻塞式)", "Spring Cloud Gateway", "Spring Cloud Gateway (响应式)"));
-        list.add(new ComponentRow("分布式事务", "LCN (老旧方案)", "Seata (阿里开源主流)", "Seata"));
+    public static List<MicroserviceComponentMetadata> buildComponentMatrix() {
+        List<MicroserviceComponentMetadata> list = new ArrayList<>();
+        list.add(new MicroserviceComponentMetadata("服务注册与发现", "Eureka (停更)", "Nacos (强推, 注册+配置)", "Consul / K8s DNS"));
+        list.add(new MicroserviceComponentMetadata("服务配置中心", "Spring Cloud Config", "Nacos (动态热刷新秒级生效)", "Consul KV / K8s ConfigMap"));
+        list.add(new MicroserviceComponentMetadata("客户端负载均衡", "Ribbon (停更)", "Spring Cloud LoadBalancer", "Spring Cloud LoadBalancer"));
+        list.add(new MicroserviceComponentMetadata("声明式服务调用", "Feign (停更)", "OpenFeign / Dubbo", "OpenFeign / HTTP Interface"));
+        list.add(new MicroserviceComponentMetadata("服务熔断与限流", "Hystrix (停更)", "Sentinel (阿里流量防卫兵)", "Resilience4j"));
+        list.add(new MicroserviceComponentMetadata("微服务网关", "Zuul 1.x (阻塞式)", "Spring Cloud Gateway", "Spring Cloud Gateway (响应式)"));
+        list.add(new MicroserviceComponentMetadata("分布式事务", "LCN (老旧方案)", "Seata (阿里开源主流)", "Seata"));
         return Collections.unmodifiableList(list);
-    }
-
-    static class ComponentRow {
-        String dimension;
-        String netflix;
-        String alibaba;
-        String springOfficial;
-
-        public ComponentRow(String dimension, String netflix, String alibaba, String springOfficial) {
-            this.dimension = dimension;
-            this.netflix = netflix;
-            this.alibaba = alibaba;
-            this.springOfficial = springOfficial;
-        }
     }
 }
