@@ -31,7 +31,7 @@ import java.util.List;
  *    - Spring 框架：BeanDefinitionVisitor（用于遍历和解析 BeanDefinition 属性占位符）
  * ============================================================================
  */
-public class VisitorPatternDemo {
+public class Pattern17_VisitorPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

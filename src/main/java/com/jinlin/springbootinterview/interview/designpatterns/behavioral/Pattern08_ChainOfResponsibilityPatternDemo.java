@@ -21,7 +21,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.behavioral;
  *    - 办公 OA 系统请假多级审批流程（组长 -> 部门经理 -> 总经理）。
  * ============================================================================
  */
-public class ChainOfResponsibilityPatternDemo {
+public class Pattern08_ChainOfResponsibilityPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

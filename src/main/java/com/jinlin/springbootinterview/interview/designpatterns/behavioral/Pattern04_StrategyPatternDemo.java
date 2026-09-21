@@ -23,7 +23,7 @@ import java.util.Map;
  *    自动将所有实现类收集到 Map 中，调用时一行代码根据业务类型直接路由提取，极具生产实用价值！
  * ============================================================================
  */
-public class StrategyPatternDemo {
+public class Pattern04_StrategyPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

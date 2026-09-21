@@ -34,7 +34,7 @@ import java.util.Deque;
  *    - Spring Web Flow 的会话状态快照恢复
  * ============================================================================
  */
-public class MementoPatternDemo {
+public class Pattern20_MementoPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

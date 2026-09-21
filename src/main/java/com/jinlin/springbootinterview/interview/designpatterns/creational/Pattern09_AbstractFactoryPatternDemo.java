@@ -19,7 +19,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.creational;
  *    - 抽象工厂能够保证客户端使用的是同一个产品族内的相关组件，防止风格混搭冲突！
  * ============================================================================
  */
-public class AbstractFactoryPatternDemo {
+public class Pattern09_AbstractFactoryPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

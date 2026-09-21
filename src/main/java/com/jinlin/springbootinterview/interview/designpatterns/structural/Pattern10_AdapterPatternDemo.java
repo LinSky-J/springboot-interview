@@ -23,7 +23,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.structural;
  *    - MyBatis 的 Log 日志适配器（将第三方 Slf4j/Log4j 统一适配为 MyBatis 的 Log 接口）。
  * ============================================================================
  */
-public class AdapterPatternDemo {
+public class Pattern10_AdapterPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

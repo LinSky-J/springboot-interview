@@ -22,7 +22,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.structural;
  *      屏蔽 Tomcat 内部核心属性，只对外暴露标准 ServletRequest 方法。
  * ============================================================================
  */
-public class FacadePatternDemo {
+public class Pattern11_FacadePatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

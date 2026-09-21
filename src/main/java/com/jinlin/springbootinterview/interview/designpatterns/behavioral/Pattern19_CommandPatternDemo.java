@@ -30,7 +30,7 @@ import java.util.Deque;
  *    - CQRS（命令查询职责分离）架构：写入与更新操作全部抽象为 Command 消息分发。
  * ============================================================================
  */
-public class CommandPatternDemo {
+public class Pattern19_CommandPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

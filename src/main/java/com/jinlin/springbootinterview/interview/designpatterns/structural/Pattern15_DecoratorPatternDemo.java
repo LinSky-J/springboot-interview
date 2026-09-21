@@ -32,7 +32,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.structural;
  *      并通过 LruCache、FifoCache、SerializedCache、LoggingCache、SynchronizedCache 进行层层装饰。
  * ============================================================================
  */
-public class DecoratorPatternDemo {
+public class Pattern15_DecoratorPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

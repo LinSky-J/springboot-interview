@@ -35,7 +35,7 @@ import java.util.List;
  *      解耦庞大分布式微服务系统之间的直接 RPC 依赖。
  * ============================================================================
  */
-public class MediatorPatternDemo {
+public class Pattern18_MediatorPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

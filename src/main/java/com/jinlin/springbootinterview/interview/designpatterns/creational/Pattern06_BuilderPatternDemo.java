@@ -22,7 +22,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.creational;
  *    - MyBatis 中的 SqlSessionFactoryBuilder。
  * ============================================================================
  */
-public class BuilderPatternDemo {
+public class Pattern06_BuilderPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

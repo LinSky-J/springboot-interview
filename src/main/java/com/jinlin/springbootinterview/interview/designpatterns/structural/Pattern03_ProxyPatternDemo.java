@@ -28,7 +28,7 @@ import java.lang.reflect.Proxy;
  *    - RPC 远程方法调用客户端桩对象（Dubbo / Feign）。
  * ============================================================================
  */
-public class ProxyPatternDemo {
+public class Pattern03_ProxyPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

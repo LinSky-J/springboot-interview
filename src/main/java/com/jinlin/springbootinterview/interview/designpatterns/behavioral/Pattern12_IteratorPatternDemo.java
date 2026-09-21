@@ -20,7 +20,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.behavioral;
  *    - Java 集合框架体系：java.util.Iterator 接口与 java.lang.Iterable 接口。
  * ============================================================================
  */
-public class IteratorPatternDemo {
+public class Pattern12_IteratorPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

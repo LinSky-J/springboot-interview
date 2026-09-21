@@ -29,7 +29,7 @@ import java.util.List;
  *      * Java AWT 中的 Component 与 Container
  * ============================================================================
  */
-public class CompositePatternDemo {
+public class Pattern14_CompositePatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

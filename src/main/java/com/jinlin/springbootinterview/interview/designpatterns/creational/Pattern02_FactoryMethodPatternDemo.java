@@ -24,7 +24,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.creational;
  *    - Spring 体系：BeanFactory 顶层规范。
  * ============================================================================
  */
-public class FactoryMethodPatternDemo {
+public class Pattern02_FactoryMethodPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

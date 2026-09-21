@@ -26,7 +26,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.behavioral;
  *    - TCP 协议连接管理（CLOSED, LISTEN, SYN_SENT, ESTABLISHED）
  * ============================================================================
  */
-public class StatePatternDemo {
+public class Pattern16_StatePatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

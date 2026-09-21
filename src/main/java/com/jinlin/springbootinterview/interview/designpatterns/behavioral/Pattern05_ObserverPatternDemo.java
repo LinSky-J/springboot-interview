@@ -24,7 +24,7 @@ import java.util.List;
  *    - 各种 MQ 消息中间件的主题订阅机制本质上也是广义的观察者模式。
  * ============================================================================
  */
-public class ObserverPatternDemo {
+public class Pattern05_ObserverPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

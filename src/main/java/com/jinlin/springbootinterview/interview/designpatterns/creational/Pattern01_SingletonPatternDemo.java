@@ -30,7 +30,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.creational;
  *    - 最完美单例：枚举单例（天然防反射破坏，JVM 底层在 reflect.Constructor.newInstance 中硬编码禁止反射创建枚举）。
  * ============================================================================
  */
-public class SingletonPatternDemo {
+public class Pattern01_SingletonPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

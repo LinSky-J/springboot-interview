@@ -21,7 +21,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.behavioral;
  *    - Servlet 体系：HttpServlet.service() 根据 GET/POST 分发调用 doGet/doPost。
  * ============================================================================
  */
-public class TemplateMethodPatternDemo {
+public class Pattern07_TemplateMethodPatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");

@@ -24,7 +24,7 @@ package com.jinlin.springbootinterview.interview.designpatterns.structural;
  *      MySQL Driver、Oracle Driver 是各大数据库厂商的具体底层实现层，两者通过桥接组合解耦。
  * ============================================================================
  */
-public class BridgePatternDemo {
+public class Pattern13_BridgePatternDemo {
 
     public static void main(String[] args) {
         System.out.println("=================================================");
