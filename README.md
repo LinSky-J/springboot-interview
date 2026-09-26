@@ -1,6 +1,23 @@
+<div align="center">
+
 # Spring Boot & Microservices Interview Codebase
 
-[中文](#中文说明) | [English](#english-documentation)
+<p align="center">
+  <a href="#english-documentation">English</a> | <a href="#中文说明">中文简体</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-8%20%7C%2011%20%7C%2017-ED8B00" alt="Java" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.6.13-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Redis-5.0%2B%20%7C%206.x%20%7C%207.x-DC382D?logo=redis&logoColor=white" alt="Redis" />
+  <img src="https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white" alt="Build" />
+  <img src="https://img.shields.io/badge/Tests-103%20Passed-brightgreen" alt="Tests" />
+  <br />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-007EC6" alt="License" /></a>
+</p>
+
+</div>
 
 ---
 
@@ -15,14 +32,15 @@
 ---
 
 ### 二、技术栈与运行环境
-- **核心开发语言**：Java 11 (兼容 Java 8 / 17 / 21)
-- **核心框架**：Spring Boot 2.6.13
-- **构建工具**：Apache Maven 3.6+
+- **核心开发语言**：Java 11 (兼容 Java 8 / 17 / 21) <img src="https://img.shields.io/badge/Java-8%20%7C%2011%20%7C%2017-ED8B00" alt="Java" />
+- **核心框架**：Spring Boot 2.6.13 <img src="https://img.shields.io/badge/Spring%20Boot-2.6.13-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot" />
+- **构建工具**：Apache Maven 3.6+ <img src="https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white" alt="Build" />
+- **数据库与中间件**：MySQL 8.0 & Redis <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL" /> <img src="https://img.shields.io/badge/Redis-5.0%2B%20%7C%206.x%20%7C%207.x-DC382D?logo=redis&logoColor=white" alt="Redis" />
 - **关键依赖**：
   - `spring-boot-starter-web` (Web MVC 核心机制)
   - `spring-boot-starter-aop` (AspectJ 切面与代理)
   - `mybatis-spring-boot-starter` (持久层框架)
-- **校验工具**：已全量通过 IntelliJ IDEA MCP 构建与静态代码质量检查。
+- **校验工具**：已全量通过 IntelliJ IDEA MCP 构建与静态代码质量检查。 <img src="https://img.shields.io/badge/IDEA_MCP-Verified-brightgreen?logo=intellijidea&logoColor=white" alt="IDEA MCP" />
 
 ---
 
@@ -194,10 +212,21 @@ mvn clean test-compile
   ```
 
 ---
+
+### 六、开源协议
+本项目基于 [Apache 2.0 License](LICENSE) 协议开源。
+
+---
 ---
 
 <a name="english-documentation"></a>
 ## English Documentation
+
+<div align="center">
+  <p align="center">
+    <a href="#中文说明">中文简体</a> | <a href="#english-documentation">English</a>
+  </p>
+</div>
 
 ### 1. Project Overview
 This repository provides an enterprise-grade codebase dedicated to high-frequency Java backend interview questions and architectural principles. It covers the core Spring Ecosystem (Spring Framework / Spring MVC / Spring Boot / Spring Cloud), MyBatis and MyBatis-Plus persistence frameworks, and the classic 23 Gang of Four (GoF) Design Patterns.
@@ -207,14 +236,15 @@ Every technical topic is implemented with runnable Java classes (`main()` entry 
 ---
 
 ### 2. Technology Stack & Prerequisites
-- **Language**: Java 11 (compatible with Java 8 / 17 / 21)
-- **Framework**: Spring Boot 2.6.13
-- **Build System**: Apache Maven 3.6+
+- **Language**: Java 11 (compatible with Java 8 / 17 / 21) <img src="https://img.shields.io/badge/Java-8%20%7C%2011%20%7C%2017-ED8B00" alt="Java" />
+- **Framework**: Spring Boot 2.6.13 <img src="https://img.shields.io/badge/Spring%20Boot-2.6.13-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot" />
+- **Build System**: Apache Maven 3.6+ <img src="https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white" alt="Build" />
+- **Database & Middleware**: MySQL 8.0 & Redis <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL" /> <img src="https://img.shields.io/badge/Redis-5.0%2B%20%7C%206.x%20%7C%207.x-DC382D?logo=redis&logoColor=white" alt="Redis" />
 - **Core Dependencies**:
   - `spring-boot-starter-web` (Web MVC processing and controllers)
   - `spring-boot-starter-aop` (AspectJ aspects and proxy infrastructure)
   - `mybatis-spring-boot-starter` (SQL mapping and database access)
-- **Validation**: 100% verified with zero compilation problems via IntelliJ IDEA MCP.
+- **Validation**: 100% verified with zero compilation problems via IntelliJ IDEA MCP. <img src="https://img.shields.io/badge/IDEA_MCP-Verified-brightgreen?logo=intellijidea&logoColor=white" alt="IDEA MCP" />
 
 ---
 
@@ -380,4 +410,4 @@ Execute the standalone master classes directly via command line:
 ---
 
 ### 6. License
-This project is open-sourced under the [MIT License](LICENSE).
+This project is open-sourced under the [Apache 2.0 License](LICENSE).
